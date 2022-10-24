@@ -1,0 +1,13 @@
+#!/bin/sh
+
+export CPQTOOLKIT_HOME=$(cd $(dirname "$0")/..; pwd)
+
+java -Xms8m -Xmx64m -jar "$CPQTOOLKIT_HOME/lib/cpq-java-version.jar" 11
+export VALID_JAVA_VERSION=$?
+if [ $VALID_JAVA_VERSION -eq 1 ]; then
+    exit $VALID_JAVA_VERSION
+fi
+
+export JAVA_ARGS="@$CPQTOOLKIT_HOME/conf/java_args.txt -Dcpqtoolkit.home=$CPQTOOLKIT_HOME"
+
+java $JAVA_ARGS -jar "$CPQTOOLKIT_HOME/bin/cpq-toolkit.jar" "$@"
